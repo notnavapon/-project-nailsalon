@@ -9,7 +9,7 @@ import (
 
 type Usecase interface {
 	Create(booking *dto.BookingReq) (*dto.BookingRes, error)
-	Delete(booking *domain.BookingEntity) error
+	Delete(booking *dto.BookingReq) (*dto.DeleteBookingRes, error)
 	GetBookingByDate(date time.Time) (*dto.BookingListRes, error)
 }
 
@@ -48,8 +48,28 @@ func (u *usecase) Create(req *dto.BookingReq) (*dto.BookingRes, error) {
 		CreatedAt:  res.CreatedAt,
 	}, nil
 }
-func (u *usecase) Delete(booking *domain.BookingEntity) error {
-	return nil
+func (u *usecase) Delete(booking *dto.BookingReq) (*dto.DeleteBookingRes, error) {
+	checkBook, err := u.getBookingBySlot(booking.Slot, booking.Date)
+	if err != nil {
+		return nil, err
+	}
+	if checkBook == nil {
+		return nil, dto.ErrRecordNotFound
+	}
+
+	bookDeleted, err := isDeleted(checkBook)
+	if err != nil {
+		return nil, err
+	}
+
+	err = u.repo.Delete(bookDeleted)
+
+	if err != nil {
+		return nil, err
+	}
+	return &dto.DeleteBookingRes{
+		Message: fmt.Sprintf("user %s is deleted", bookDeleted.User),
+	}, nil
 }
 func (u *usecase) GetBookingByDate(date time.Time) (*dto.BookingListRes, error) {
 	bookList, err := u.repo.GetBookingByDate(&date)

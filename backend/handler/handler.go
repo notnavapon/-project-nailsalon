@@ -37,7 +37,21 @@ func (h *handler) Create(c *fiber.Ctx) error {
 }
 
 func (h *handler) Delete(c *fiber.Ctx) error {
-	return nil
+	var req *dto.BookingReq
+	if err := c.BodyParser(&req); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+	res, err := h.usecase.Delete(req)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"message": res.Message,
+	})
 }
 
 func (h *handler) GetBookingByDate(c *fiber.Ctx) error {

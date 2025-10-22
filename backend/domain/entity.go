@@ -18,5 +18,4 @@ type BookingRepository interface {
 	GetBookingBySlot(slot int, date time.Time) (*BookingEntity, error)
 	GetBookingByDate(date *time.Time) ([]BookingEntity, error)
 	Delete(booking *BookingEntity) error
-	CheckDeleteBooking(isDelete bool) error
 }

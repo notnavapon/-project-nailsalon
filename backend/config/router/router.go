@@ -14,6 +14,7 @@ func AppRouter(usecase usecase.Usecase) *fiber.App {
 
 	app.Post("book/create", handler.Create)
 	app.Post("book/date", handler.GetBookingByDate)
+	app.Post("book/delete", handler.Delete)
 
 	return app
 }

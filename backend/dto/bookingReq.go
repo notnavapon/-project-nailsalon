@@ -6,7 +6,7 @@ type BookingReq struct {
 	User       string    `json:"user"`
 	Date       time.Time `json:"date"`
 	Slot       int       `json:"slot"`
-	NumberUser string    `json:"number"`
+	NumberUser string    `json:"numberuser"`
 }
 type DateReq struct {
 	Date string `json:"date"`

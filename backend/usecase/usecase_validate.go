@@ -6,18 +6,6 @@ import (
 	"time"
 )
 
-func (u *usecase) checkSlotAvailable(slot int, date time.Time) error {
-
-	checkSlot, err := u.repo.GetBookingBySlot(slot, date)
-
-	if err != nil {
-		return err
-	} else if checkSlot != nil {
-		return dto.ErrEmailExists
-	}
-	return nil
-}
-
 func (u *usecase) getBookingBySlot(slot int, date time.Time) (*domain.BookingEntity, error) {
 	getSlot, err := u.repo.GetBookingBySlot(slot, date)
 
@@ -31,4 +19,15 @@ func validateSlot(slot int) error {
 		return nil
 	}
 	return dto.ErrSlotOutOfRange
+}
+
+func isDeleted(book *domain.BookingEntity) (*domain.BookingEntity, error) {
+
+	checkBook := book
+
+	if !book.IsDeleted {
+		checkBook.IsDeleted = true
+		return checkBook, nil
+	}
+	return nil, dto.ErrRecordNotFound
 }

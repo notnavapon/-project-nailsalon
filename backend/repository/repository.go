@@ -33,9 +33,14 @@ func (repo *bookingRepository) Create(booking *domain.BookingEntity) (*domain.Bo
 	return booking, nil
 }
 
-func (repo *bookingRepository) Delete(booking *domain.BookingEntity) error {
+func (repo *bookingRepository) Delete(book *domain.BookingEntity) error {
+	err := repo.db.Save(&book).Error
+	if err != nil {
+		return err
+	}
 	return nil
 }
+
 func (repo *bookingRepository) GetBookingByDate(date *time.Time) ([]domain.BookingEntity, error) {
 	var bookinglist []domain.BookingEntity
 	err := repo.db.Where("date = ? AND is_deleted = ?", date, false).Find(&bookinglist).Error
@@ -57,7 +62,4 @@ func (repo *bookingRepository) GetBookingBySlot(slot int, date time.Time) (*doma
 		return nil, err
 	}
 	return &book, nil
-}
-func (repo *bookingRepository) CheckDeleteBooking(isDelete bool) error {
-	return nil
 }

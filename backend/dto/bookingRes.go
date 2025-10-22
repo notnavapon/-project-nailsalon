@@ -15,6 +15,9 @@ type BookingRes struct {
 type BookingListRes struct {
 	Books []BookingRes `json:"data"`
 }
+type DeleteBookingRes struct {
+	Message string `json:"string"`
+}
 
 var ErrEmailExists = errors.New("email already exists")
 var ErrSlotOutOfRange = errors.New("slot out of rage")
