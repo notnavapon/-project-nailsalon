@@ -1,0 +1,21 @@
+# air.toml
+
+# directory watch
+root = "."
+tmp_dir = "tmp"
+
+[build]
+cmd = "go build -o tmp/main.exe cmd/main.go"  
+bin = "tmp/main.exe"                          
+include_ext = ["go", "tpl", "tmpl", "html"]
+exclude_dir = ["assets", "tmp", "vendor"]
+
+
+[log]
+  time = true
+
+[color]
+  main = "yellow"
+  watcher = "cyan"
+  build = "green"
+  runner = "magenta"
