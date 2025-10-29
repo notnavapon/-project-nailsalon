@@ -6,7 +6,7 @@ type BookingEntity struct {
 	ID         uint `gorm:"primaryKey"`
 	User       string
 	Date       time.Time
-	Slot       int
+	Slot       int `gorm:"check:slot BETWEEN 9 AND 18"`
 	NumberUser string
 	IsDeleted  bool      `gorm:"default:false"`
 	CreatedAt  time.Time `gorm:"autoCreateTime"`

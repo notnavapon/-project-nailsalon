@@ -49,7 +49,7 @@ func (repo *bookingRepository) GetBookingByDate(date *time.Time) ([]domain.Booki
 	}
 	if bookinglist == nil {
 		return nil, nil
-	}
+	}	
 	return bookinglist, nil
 }
 func (repo *bookingRepository) GetBookingBySlot(slot int, date time.Time) (*domain.BookingEntity, error) {
